@@ -30,12 +30,23 @@ def fetch_anime_data():
 # Streamlit app
 def main():
     st.title("Anime List")
+    
+    # Fetch anime data
     anime_data = fetch_anime_data()
+    
+    # Search functionality
+    search_query = st.text_input("Search for anime:")
+    
+    if search_query:
+        filtered_anime = [anime for anime in anime_data["data"]["Page"]["media"] if search_query.lower() in anime["title"]["romaji"].lower()]
+    else:
+        filtered_anime = anime_data["data"]["Page"]["media"]
 
-    for anime in anime_data["data"]["Page"]["media"]:
+    for anime in filtered_anime:
         st.write(anime["title"]["romaji"])
         st.write(anime["description"])
         st.image(anime["coverImage"]["medium"], use_column_width=True)
 
 if __name__ == "__main__":
     main()
+
