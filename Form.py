@@ -8,7 +8,7 @@ BASE_URL = "https://graphql.anilist.co"
 # AniList API query for retrieving anime list
 query = """
 {
-  Page(page: 1, perPage: 100) {
+  Page(page: 1, perPage: 10) {
     media(type: ANIME) {
       id
       title {
