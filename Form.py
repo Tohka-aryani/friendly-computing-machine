@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 # AniList API base URL
 BASE_URL = "https://graphql.anilist.co"
@@ -42,13 +43,15 @@ def main():
     else:
         filtered_anime = anime_data["data"]["Page"]["media"]
     
-    # Display search results
+    # Display search results in a table
     if filtered_anime:
         st.write(f"Showing {len(filtered_anime)} result(s) for '{search_query}':")
-        for anime in filtered_anime:
-            st.write(anime["title"]["romaji"])
-            st.write(anime["description"])
-            st.image(anime["coverImage"]["medium"], use_column_width=True)
+        result_df = pd.DataFrame({
+            "Title": [anime["title"]["romaji"] for anime in filtered_anime],
+            "Description": [anime["description"] for anime in filtered_anime],
+            "Cover Image": [anime["coverImage"]["medium"] for anime in filtered_anime]
+        })
+        st.table(result_df)
     else:
         st.write("No results found.")
 
