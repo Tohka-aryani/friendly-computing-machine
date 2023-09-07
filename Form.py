@@ -41,11 +41,17 @@ def main():
         filtered_anime = [anime for anime in anime_data["data"]["Page"]["media"] if search_query.lower() in anime["title"]["romaji"].lower()]
     else:
         filtered_anime = anime_data["data"]["Page"]["media"]
-
-    for anime in filtered_anime:
-        st.write(anime["title"]["romaji"])
-        st.write(anime["description"])
-        st.image(anime["coverImage"]["medium"], use_column_width=True)
+    
+    # Display search results
+    if filtered_anime:
+        st.write(f"Showing {len(filtered_anime)} result(s) for '{search_query}':")
+        for anime in filtered_anime:
+            st.write(anime["title"]["romaji"])
+            st.write(anime["description"])
+            st.image(anime["coverImage"]["medium"], use_column_width=True)
+    else:
+        st.write("No results found.")
 
 if __name__ == "__main__":
     main()
+
