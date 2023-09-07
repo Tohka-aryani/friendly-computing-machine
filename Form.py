@@ -8,7 +8,7 @@ BASE_URL = "https://graphql.anilist.co"
 # AniList API query for retrieving anime list
 query = """
 {
-  Page(page: 1, perPage: 10) {
+  Page(page: 1, perPage: 100) {
     media(type: ANIME) {
       id
       title {
@@ -49,7 +49,7 @@ def main():
         result_df = pd.DataFrame({
             "Title": [anime["title"]["romaji"] for anime in filtered_anime],
             "Description": [anime["description"] for anime in filtered_anime],
-            "Cover Image": [anime["coverImage"]["medium"] for anime in filtered_anime]
+            "Cover Image": [st.image(anime["coverImage"]["medium"], use_column_width=True) for anime in filtered_anime]
         })
         st.table(result_df)
     else:
@@ -57,4 +57,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
